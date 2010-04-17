@@ -74,7 +74,7 @@ path_dealloc(PycairoPath *p) {
     cairo_path_destroy(p->path);
     p->path = NULL;
   }
-  p->ob_type->tp_free((PyObject *)p);
+  Py_TYPE(p)->tp_free((PyObject *)p);
 #ifdef DEBUG
   printf("path_dealloc end\n");
 #endif
@@ -175,8 +175,7 @@ static PyObject * path_iter(PyObject *seq); /* forward declaration */
 
 
 PyTypeObject PycairoPath_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,				        /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Path",			/* tp_name */
   sizeof(PycairoPath),		/* tp_basicsize */
   0,					/* tp_itemsize */
@@ -295,8 +294,7 @@ pathiter_next(PycairoPathiter *it) {
 }
 
 PyTypeObject PycairoPathiter_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Pathiter",                   /* tp_name */
   sizeof(PycairoPathiter),            /* tp_basicsize */
   0,                                  /* tp_itemsize */

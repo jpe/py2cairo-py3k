@@ -52,7 +52,7 @@ PycairoMatrix_FromMatrix (const cairo_matrix_t *matrix) {
 
 static void
 matrix_dealloc (PycairoMatrix *o) {
-  o->ob_type->tp_free((PyObject *)o);
+  Py_TYPE(o)->tp_free((PyObject *)o);
 }
 
 static PyObject *
@@ -301,8 +301,7 @@ static PyMethodDef matrix_methods[] = {
 };
 
 PyTypeObject PycairoMatrix_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Matrix",                     /* tp_name */
   sizeof(PycairoMatrix),              /* tp_basicsize */
   0,                                  /* tp_itemsize */

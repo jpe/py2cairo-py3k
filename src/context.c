@@ -77,7 +77,7 @@ pycairo_dealloc(PycairoContext *o) {
   }
   Py_CLEAR(o->base);
 
-  o->ob_type->tp_free((PyObject *)o);
+  Py_TYPE(o)->tp_free((PyObject *)o);
 }
 
 static PyObject *
@@ -1399,8 +1399,7 @@ static PyMethodDef pycairo_methods[] = {
 };
 
 PyTypeObject PycairoContext_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Context",                    /* tp_name */
   sizeof(PycairoContext),             /* tp_basicsize */
   0,                                  /* tp_itemsize */

@@ -144,7 +144,7 @@ surface_dealloc (PycairoSurface *o) {
   }
   Py_CLEAR(o->base);
 
-  o->ob_type->tp_free((PyObject *)o);
+  Py_TYPE(o)->tp_free((PyObject *)o);
 }
 
 static PyObject *
@@ -616,8 +616,7 @@ static PyMethodDef image_surface_methods[] = {
 
 
 PyTypeObject PycairoImageSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.ImageSurface",               /* tp_name */
   sizeof(PycairoImageSurface),        /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -730,8 +729,7 @@ static PyMethodDef pdf_surface_methods[] = {
 };
 
 PyTypeObject PycairoPDFSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.PDFSurface",                 /* tp_name */
   sizeof(PycairoPDFSurface),          /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -923,8 +921,7 @@ static PyMethodDef ps_surface_methods[] = {
 };
 
 PyTypeObject PycairoPSSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.PSSurface",                  /* tp_name */
   sizeof(PycairoPSSurface),           /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -1029,8 +1026,7 @@ static PyMethodDef svg_surface_methods[] = {
 };
 
 PyTypeObject PycairoSVGSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.SVGSurface",                 /* tp_name */
   sizeof(PycairoSVGSurface),          /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -1094,8 +1090,7 @@ static PyMethodDef win32_surface_methods[] = {
 };
 
 PyTypeObject PycairoWin32Surface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Win32Surface",               /* tp_name */
   sizeof(PycairoWin32Surface),        /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -1241,8 +1236,7 @@ static PyMethodDef xcb_surface_methods[] = {
 };
 
 PyTypeObject PycairoXCBSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.XCBSurface",                 /* tp_name */
   sizeof(PycairoXCBSurface),          /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -1321,8 +1315,7 @@ static PyMethodDef xlib_surface_methods[] = {
 };
 
 PyTypeObject PycairoXlibSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.XlibSurface",                /* tp_name */
   sizeof(PycairoXlibSurface),         /* tp_basicsize */
   0,                                  /* tp_itemsize */
