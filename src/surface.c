@@ -531,7 +531,11 @@ image_surface_format_stride_for_width (PyObject *self, PyObject *args) {
 
 static PyObject *
 image_surface_get_data (PycairoImageSurface *o) {
+#if PY_VERSION_HEX < 0x03000000
   return PyBuffer_FromReadWriteObject((PyObject *)o, 0, Py_END_OF_BUFFER);
+#else
+  return PyMemoryView_FromObject((PyObject *)o);
+#endif
 }
 
 static PyObject *
@@ -604,10 +608,12 @@ image_surface_buffer_getsegcount (PycairoImageSurface *o, int *lenp) {
 
 /* See Python C API Manual 10.7 */
 static PyBufferProcs image_surface_as_buffer = {
+#if PY_VERSION_HEX < 0x03000000
   (readbufferproc) image_surface_buffer_getreadbuf,
   (writebufferproc)image_surface_buffer_getwritebuf,
   (segcountproc)   image_surface_buffer_getsegcount,
   (charbufferproc) NULL,
+#endif
 };
 
 static PyMethodDef image_surface_methods[] = {

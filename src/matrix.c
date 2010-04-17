@@ -230,7 +230,9 @@ static PyNumberMethods matrix_as_number = {
   (binaryfunc)0,   /*nb_add*/
   (binaryfunc)0,   /*nb_subtract*/
   (binaryfunc)matrix_operator_multiply,  /*nb_multiply*/
+#if PY_VERSION_HEX < 0x03000000
   (binaryfunc)0,   /*nb_divide*/
+#endif
   (binaryfunc)0,   /*nb_remainder*/
   (binaryfunc)0,   /*nb_divmod*/
   (ternaryfunc)0,  /*nb_power*/
@@ -244,28 +246,6 @@ static PyNumberMethods matrix_as_number = {
   (binaryfunc)0,   /*nb_and*/
   (binaryfunc)0,   /*nb_xor*/
   (binaryfunc)0,   /*nb_or*/
-  (coercion)0,     /*nb_coerce*/
-  (unaryfunc)0,    /*nb_int*/
-  (unaryfunc)0,    /*nb_long*/
-  (unaryfunc)0,    /*nb_float*/
-  (unaryfunc)0,    /*nb_oct*/
-  (unaryfunc)0,    /*nb_hex*/
-  0,		   /*nb_inplace_add*/
-  0,		   /*nb_inplace_subtract*/
-  0,		   /*nb_inplace_multiply*/
-  0,		   /*nb_inplace_divide*/
-  0,		   /*nb_inplace_remainder*/
-  0,		   /*nb_inplace_power*/
-  0,		   /*nb_inplace_lshift*/
-  0,		   /*nb_inplace_rshift*/
-  0,		   /*nb_inplace_and*/
-  0,		   /*nb_inplace_xor*/
-  0,		   /*nb_inplace_or*/
-  (binaryfunc)0,   /* nb_floor_divide */
-  0,	           /* nb_true_divide */
-  0,		   /* nb_inplace_floor_divide */
-  0,		   /* nb_inplace_true_divide */
-  (unaryfunc)0,	   /* nb_index */
 };
 
 static PySequenceMethods matrix_as_sequence = {
