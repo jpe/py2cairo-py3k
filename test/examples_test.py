@@ -7,6 +7,7 @@ from __future__ import print_function  # new in 2.6, redundant in 3.0
 import os
 import os.path
 import subprocess
+import sys
 
 #import py.test as test
 
@@ -16,7 +17,7 @@ def test_examples():
     '''
     os.chdir(os.path.join(os.path.dirname(__file__), '..', 'examples'))
     for f in (x for x in os.listdir('.') if x.endswith('.py')):
-        retcode = subprocess.call('python %s' % f, shell=True)
+        retcode = subprocess.call('%s %s' % (sys.executable, f), shell=True)
         assert retcode == 0, 'Error: {0} retcode == {1}'.format(f, retcode)
 
 
@@ -25,5 +26,5 @@ def test_snippets_png():
     '''
     os.chdir(os.path.join(os.path.dirname(__file__), '..', 'examples',
                           'cairo_snippets'))
-    retcode = subprocess.call('python snippets_png.py -s', shell=True)
+    retcode = subprocess.call('%s snippets_png.py -s' % sys.executable, shell=True)
     assert retcode == 0, 'Error: retcode == {0}'.format(retcode)
