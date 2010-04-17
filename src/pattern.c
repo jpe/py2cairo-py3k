@@ -113,7 +113,7 @@ pattern_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 static PyObject *
 pattern_get_extend (PycairoPattern *o) {
-  return PyInt_FromLong (cairo_pattern_get_extend (o->pattern));
+  return PYCAIRO_PyLong_FromLong (cairo_pattern_get_extend (o->pattern));
 }
 
 static PyObject *
@@ -288,7 +288,7 @@ surface_pattern_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 static PyObject *
 surface_pattern_get_filter (PycairoSurfacePattern *o) {
-  return PyInt_FromLong (cairo_pattern_get_filter (o->pattern));
+  return PYCAIRO_PyLong_FromLong (cairo_pattern_get_filter (o->pattern));
 }
 
 static PyObject *

@@ -113,7 +113,7 @@ path_str(PycairoPath *p) {
     case CAIRO_PATH_MOVE_TO:
       PyOS_snprintf(buf, sizeof(buf), "move_to %f %f",
 		    data[1].point.x, data[1].point.y);
-      s = PyString_FromString(buf);
+      s = PYCAIRO_PyUnicode_FromString(buf);
       if (!s)
 	goto Done;
       ret = PyList_Append(pieces, s);
@@ -125,7 +125,7 @@ path_str(PycairoPath *p) {
     case CAIRO_PATH_LINE_TO:
       PyOS_snprintf(buf, sizeof(buf), "line_to %f %f",
 		    data[1].point.x, data[1].point.y);
-      s = PyString_FromString(buf);
+      s = PYCAIRO_PyUnicode_FromString(buf);
       if (!s)
 	goto Done;
       ret = PyList_Append(pieces, s);
@@ -139,7 +139,7 @@ path_str(PycairoPath *p) {
 		    data[1].point.x, data[1].point.y,
 		    data[2].point.x, data[2].point.y,
 		    data[3].point.x, data[3].point.y);
-      s = PyString_FromString(buf);
+      s = PYCAIRO_PyUnicode_FromString(buf);
       if (!s)
 	goto Done;
       ret = PyList_Append(pieces, s);
@@ -149,7 +149,7 @@ path_str(PycairoPath *p) {
       break;
 
     case CAIRO_PATH_CLOSE_PATH:
-      s = PyString_FromString("close path");
+      s = PYCAIRO_PyUnicode_FromString("close path");
       if (!s)
 	goto Done;
       ret = PyList_Append(pieces, s);
@@ -160,10 +160,10 @@ path_str(PycairoPath *p) {
     }
   }
   /* result = "\n".join(pieces) */
-  s = PyString_FromString("\n");
+  s = PYCAIRO_PyUnicode_FromString("\n");
   if (s == NULL)
     goto Done;
-  result = _PyString_Join(s, pieces);
+  result = PYCAIRO_PyUnicode_Join(s, pieces);
   Py_DECREF(s);
 
 Done:

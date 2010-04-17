@@ -195,7 +195,7 @@ surface_flush (PycairoSurface *o) {
 
 static PyObject *
 surface_get_content (PycairoSurface *o) {
-  return PyInt_FromLong (cairo_surface_get_content (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_surface_get_content (o->surface));
 }
 
 static PyObject *
@@ -460,7 +460,7 @@ _read_func (void *closure, unsigned char *data, unsigned int length) {
      */
     goto end;
   }
-  int ret = PyString_AsStringAndSize(pystr, &buffer, &str_length);
+  int ret = PYCAIRO_PyBytes_AsStringAndSize(pystr, &buffer, &str_length);
   if (ret == -1 || str_length < length) {
     goto end;
   }
@@ -511,7 +511,7 @@ image_surface_format_stride_for_width (PyObject *self, PyObject *args) {
   int width;
   if (!PyArg_ParseTuple(args, "ii:format_stride_for_width", &format, &width))
     return NULL;
-  return PyInt_FromLong (cairo_format_stride_for_width (format, width));
+  return PYCAIRO_PyLong_FromLong (cairo_format_stride_for_width (format, width));
 }
 
 static PyObject *
@@ -526,17 +526,17 @@ image_surface_get_format (PycairoImageSurface *o) {
 
 static PyObject *
 image_surface_get_height (PycairoImageSurface *o) {
-  return PyInt_FromLong (cairo_image_surface_get_height (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_image_surface_get_height (o->surface));
 }
 
 static PyObject *
 image_surface_get_stride (PycairoImageSurface *o) {
-  return PyInt_FromLong (cairo_image_surface_get_stride (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_image_surface_get_stride (o->surface));
 }
 
 static PyObject *
 image_surface_get_width (PycairoImageSurface *o) {
-  return PyInt_FromLong (cairo_image_surface_get_width (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_image_surface_get_width (o->surface));
 }
 
 
@@ -867,7 +867,7 @@ ps_surface_ps_level_to_string (PyObject *self, PyObject *args) {
 		    "invalid level argument");
     return NULL;
   }
-  return PyString_FromString(s);
+  return PYCAIRO_PyUnicode_FromString(s);
 }
 
 static PyObject *
@@ -1293,17 +1293,17 @@ xlib_surface_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 static PyObject *
 xlib_surface_get_depth (PycairoXlibSurface *o) {
-  return PyInt_FromLong (cairo_xlib_surface_get_depth (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_xlib_surface_get_depth (o->surface));
 }
 
 static PyObject *
 xlib_surface_get_height (PycairoXlibSurface *o) {
-  return PyInt_FromLong (cairo_xlib_surface_get_height (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_xlib_surface_get_height (o->surface));
 }
 
 static PyObject *
 xlib_surface_get_width (PycairoXlibSurface *o) {
-  return PyInt_FromLong (cairo_xlib_surface_get_width (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_xlib_surface_get_width (o->surface));
 }
 
 static PyMethodDef xlib_surface_methods[] = {

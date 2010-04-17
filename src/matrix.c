@@ -122,7 +122,7 @@ matrix_repr (PycairoMatrix *o) {
 		o->matrix.xx, o->matrix.yx,
 		o->matrix.xy, o->matrix.yy,
 		o->matrix.x0, o->matrix.y0);
-  return PyString_FromString(buf);
+  return PYCAIRO_PyUnicode_FromString(buf);
 }
 
 static PyObject *
