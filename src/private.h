@@ -166,5 +166,29 @@ int Pycairo_Check_Status (cairo_status_t status);
     }								\
   } while (0)
 
+#if PY_VERSION_HEX >= 0x03000000
+#  define PYCAIRO_PyLong_FromLong(v) PyLong_FromLong(v)
+
+#  define PYCAIRO_PyUnicode_FromString(v) PyUnicode_FromString(v)
+#  define PYCAIRO_PyUnicode_Join(s, parts) PyUnicode_Join(s, parts)
+
+#  define PYCAIRO_PyBytes_AsStringAndSize PyBytes_AsStringAndSize
+
+#  define PYCAIRO_PyBaseString_Type PyUnicode_Type
+#  define PYCAIRO_PyBaseString_Check(v) PyUnicode_Check(v)
+
+#else
+#  define PYCAIRO_PyLong_FromLong(v) PyInt_FromLong(v)
+
+#  define PYCAIRO_PyUnicode_FromString(v) PyString_FromString(v)
+#  define PYCAIRO_PyUnicode_Join(s, parts) _PyString_Join(s, parts)
+
+#  define PYCAIRO_PyBytes_AsStringAndSize PyString_AsStringAndSize
+
+#  define PYCAIRO_PyBaseString_Type PyBaseString_Type
+#  define PYCAIRO_PyBaseString_Check(v) PyBaseString_Check(v)
+
+#endif
+
 
 #endif /* _PYCAIRO_PRIVATE_H_ */
