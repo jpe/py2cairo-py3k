@@ -204,8 +204,7 @@ static PyMethodDef toy_font_face_methods[] = {
 
 
 PyTypeObject PycairoToyFontFace_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.ToyFontFace",                /* tp_name */
   sizeof(PycairoToyFontFace),         /* tp_basicsize */
   0,                                  /* tp_itemsize */
@@ -282,7 +281,7 @@ scaled_font_dealloc(PycairoScaledFont *o) {
     cairo_scaled_font_destroy (o->scaled_font);
     o->scaled_font = NULL;
   }
-  o->ob_type->tp_free((PyObject *) o);
+  Py_TYPE(o)->tp_free((PyObject *) o);
 }
 
 static PyObject *

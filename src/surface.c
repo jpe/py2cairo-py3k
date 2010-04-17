@@ -339,8 +339,7 @@ static PyMethodDef surface_methods[] = {
 
 
 PyTypeObject PycairoSurface_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,                                  /* ob_size */
+  PyVarObject_HEAD_INIT(NULL, 0)
   "cairo.Surface",                    /* tp_name */
   sizeof(PycairoSurface),             /* tp_basicsize */
   0,                                  /* tp_itemsize */
