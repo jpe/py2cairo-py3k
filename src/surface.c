@@ -279,12 +279,19 @@ static PyObject *
 surface_write_to_png (PycairoSurface *o, PyObject *file) {
   cairo_status_t status;
 
-  if (PyObject_TypeCheck (file, &PyString_Type)) {
+  if (PYCAIRO_PyBaseString_Check(file)) {
     /* string (filename) argument */
+    const char *utf8;
+    PyObject *py_utf8 = NULL;
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(file, &py_utf8);
+    if (utf8 == NULL)
+      return NULL;
+    
     Py_BEGIN_ALLOW_THREADS;
-    status = cairo_surface_write_to_png (o->surface,
-					 PyString_AsString(file));
+    status = cairo_surface_write_to_png (o->surface, utf8);
     Py_END_ALLOW_THREADS;
+    
+    Py_XDECREF(py_utf8);
 
   } else {  /* file or file-like object argument */
     PyObject* writer = PyObject_GetAttrString (file, "write");
@@ -479,10 +486,18 @@ image_surface_create_from_png (PyTypeObject *type, PyObject *file) {
   PyObject* reader;
   cairo_surface_t *is;
 
-  if (PyObject_TypeCheck (file, &PyBaseString_Type)) {
+  if (PYCAIRO_PyBaseString_Check(file)) {
+    const char* utf8;
+    PyObject *py_utf8 = NULL;
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(file, &py_utf8);
+    if (utf8 == NULL)
+      return NULL;
+
     Py_BEGIN_ALLOW_THREADS;
-    is = cairo_image_surface_create_from_png (PyString_AsString(file));
+    is = cairo_image_surface_create_from_png (utf8);
     Py_END_ALLOW_THREADS;
+
+    Py_XDECREF(py_utf8);
     return PycairoSurface_FromSurface (is, NULL);
   }
 
@@ -521,7 +536,7 @@ image_surface_get_data (PycairoImageSurface *o) {
 
 static PyObject *
 image_surface_get_format (PycairoImageSurface *o) {
-  return PyInt_FromLong (cairo_image_surface_get_format (o->surface));
+  return PYCAIRO_PyLong_FromLong (cairo_image_surface_get_format (o->surface));
 }
 
 static PyObject *
@@ -680,12 +695,20 @@ pdf_surface_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 				    width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
     return PycairoSurface_FromSurface (sfc, NULL);
-  }else if (PyObject_TypeCheck (file, &PyBaseString_Type)) {
+  }
+  else if (PYCAIRO_PyBaseString_Check(file)) {
     /* string (filename) argument */
+    const char* utf8;
+    PyObject *py_utf8 = NULL;
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(file, &py_utf8);
+    if (utf8 == NULL)
+      return NULL;
+
     Py_BEGIN_ALLOW_THREADS;
-    sfc = cairo_pdf_surface_create (PyString_AsString(file),
-				    width_in_points, height_in_points);
+    sfc = cairo_pdf_surface_create (utf8, width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
+
+    Py_XDECREF(py_utf8);
     return PycairoSurface_FromSurface (sfc, NULL);
   }
   /* file or file-like object argument */
@@ -793,12 +816,21 @@ ps_surface_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 				   width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
     return PycairoSurface_FromSurface (sfc, NULL);
-  }else if (PyObject_TypeCheck (file, &PyBaseString_Type)) {
+  }
+  else if (PYCAIRO_PyBaseString_Check (file)) {
     /* string (filename) argument */
+    const char* utf8;
+    PyObject *py_utf8 = NULL;
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(file, &py_utf8);
+    if (utf8 == NULL)
+      return NULL;
+
     Py_BEGIN_ALLOW_THREADS;
-    sfc = cairo_ps_surface_create (PyString_AsString(file),
-				   width_in_points, height_in_points);
+    sfc = cairo_ps_surface_create (utf8, width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
+
+    Py_XDECREF(py_utf8);
+
     return PycairoSurface_FromSurface (sfc, NULL);
   }
   /* else: file or file-like object argument */
@@ -985,12 +1017,20 @@ svg_surface_new (PyTypeObject *type, PyObject *args, PyObject *kwds) {
 				    width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
     return PycairoSurface_FromSurface (sfc, NULL);
-  }else if (PyObject_TypeCheck (file, &PyBaseString_Type)) {
+  }
+  else if (PYCAIRO_PyBaseString_Check (file)) {
     /* string (filename) argument */
+    const char* utf8;
+    PyObject *py_utf8 = NULL;
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(file, &py_utf8);
+    if (utf8 == NULL)
+      return NULL;
+
     Py_BEGIN_ALLOW_THREADS;
-    sfc = cairo_svg_surface_create (PyString_AsString(file),
-				    width_in_points, height_in_points);
+    sfc = cairo_svg_surface_create (utf8, width_in_points, height_in_points);
     Py_END_ALLOW_THREADS;
+
+    Py_XDECREF(py_utf8);
     return PycairoSurface_FromSurface (sfc, NULL);
   }
   /* else: file or file-like object argument */

@@ -186,9 +186,32 @@ int Pycairo_Check_Status (cairo_status_t status);
 #  define PYCAIRO_PyBytes_AsStringAndSize PyString_AsStringAndSize
 
 #  define PYCAIRO_PyBaseString_Type PyBaseString_Type
-#  define PYCAIRO_PyBaseString_Check(v) PyBaseString_Check(v)
+#  define PYCAIRO_PyBaseString_Check(v) (PyString_Check(v) || PyUnicode_Check(v))
 
 #endif
+
+static inline const char *
+PYCAIRO_PyBaseString_AsUTF8 (PyObject *o, PyObject **tmp_str)
+{
+#if PY_VERSION_HEX >= 0x03000000
+  return _PyUnicode_AsString(o);
+#else
+  if (PyString_Check(o)) {
+    /* A plain ASCII string is also a valid UTF-8 string */
+    return PyString_AS_STRING(o);
+  }
+  else if (PyUnicode_Check(o)) {
+    *tmp_str = PyUnicode_AsUTF8String(o);
+    if (*tmp_str == NULL) 
+      return NULL;
+    return PyString_AS_STRING(*tmp_str);
+  }
+  else {
+    PyErr_BadInternalCall();
+    return NULL;
+  }
+#endif
+}
 
 
 #endif /* _PYCAIRO_PRIVATE_H_ */

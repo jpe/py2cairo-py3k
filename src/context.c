@@ -801,18 +801,12 @@ pycairo_select_font_face (PycairoContext *o, PyObject *args) {
   cairo_font_weight_t weight = CAIRO_FONT_WEIGHT_NORMAL;
 
   if (!PyArg_ParseTuple(args, "O!|ii:Context.select_font_face",
-			&PyBaseString_Type, &obj, &slant, &weight))
+			&PYCAIRO_PyBaseString_Type, &obj, &slant, &weight))
     return NULL;
 
   /* accept str and unicode family, auto convert to utf8 as required */
-  if (PyString_Check(obj)) {
-    /* A plain ASCII string is also a valid UTF-8 string */
-    utf8family = PyString_AS_STRING(obj);
-  } else if (PyUnicode_Check(obj)) {
-    pyUTF8 = PyUnicode_AsUTF8String(obj);
-    if (pyUTF8 != NULL) {
-      utf8family = PyString_AS_STRING(pyUTF8);
-    }
+  if (PYCAIRO_PyBaseString_Check(obj)) {
+    utf8family = PYCAIRO_PyBaseString_AsUTF8(obj, &pyUTF8);
   } else {
     PyErr_SetString(PyExc_TypeError,
 		    "Context.select_font_face: family must be str or unicode");
@@ -1125,14 +1119,8 @@ pycairo_show_text (PycairoContext *o, PyObject *obj) {
   const char *utf8 = NULL;
 
   /* accept str and unicode text, auto convert to utf8 as required */
-  if (PyString_Check(obj)) {
-    /* A plain ASCII string is also a valid UTF-8 string */
-    utf8 = PyString_AS_STRING(obj);
-  } else if (PyUnicode_Check(obj)) {
-    pyUTF8 = PyUnicode_AsUTF8String(obj);
-    if (pyUTF8 != NULL) {
-      utf8 = PyString_AS_STRING(pyUTF8);
-    }
+  if (PYCAIRO_PyBaseString_Check(obj)) {
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(obj, &pyUTF8);
   } else {
     PyErr_SetString(PyExc_TypeError,
 		    "Context.show_text: text must be str or unicode");
@@ -1181,14 +1169,8 @@ pycairo_text_extents (PycairoContext *o, PyObject *obj) {
   const char *utf8 = NULL;
 
   /* accept str and unicode text, auto convert to utf8 as required */
-  if (PyString_Check(obj)) {
-    /* A plain ASCII string is also a valid UTF-8 string */
-    utf8 = PyString_AS_STRING(obj);
-  } else if (PyUnicode_Check(obj)) {
-    pyUTF8 = PyUnicode_AsUTF8String(obj);
-    if (pyUTF8 != NULL) {
-      utf8 = PyString_AS_STRING(pyUTF8);
-    }
+  if (PYCAIRO_PyBaseString_Check(obj)) {
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(obj, &pyUTF8);
   } else {
     PyErr_SetString(PyExc_TypeError,
 		    "Context.text_extents: text must be str or unicode");
@@ -1210,14 +1192,8 @@ pycairo_text_path (PycairoContext *o, PyObject *obj) {
   const char *utf8 = NULL;
 
   /* accept str and unicode text, auto convert to utf8 as required */
-  if (PyString_Check(obj)) {
-    /* A plain ASCII string is also a valid UTF-8 string */
-    utf8 = PyString_AS_STRING(obj);
-  } else if (PyUnicode_Check(obj)) {
-    pyUTF8 = PyUnicode_AsUTF8String(obj);
-    if (pyUTF8 != NULL) {
-      utf8 = PyString_AS_STRING(pyUTF8);
-    }
+  if (PYCAIRO_PyBaseString_Check(obj)) {
+    utf8 = PYCAIRO_PyBaseString_AsUTF8(obj, &pyUTF8);
   } else {
     PyErr_SetString(PyExc_TypeError,
 		    "Context.text_path: text must be str or unicode");
